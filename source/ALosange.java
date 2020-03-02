@@ -1,8 +1,14 @@
 public class ALosange implements Formula {
 
+    Formula formula;
+
+    public ALosange(Formula formula) {
+        this.formula = formula;
+    }
+
     @Override
     public String asString() {
-        return null;
+        return "A◊" + formula.asString();
     }
 
     @Override

@@ -1,7 +1,13 @@
 public class ERond implements Formula {
+    Formula formula;
+
+    public ERond(Formula formula) {
+        this.formula = formula;
+    }
+
     @Override
     public String asString() {
-        return null;
+        return "E◯" + formula.asString();
     }
 
     @Override
@@ -9,3 +15,4 @@ public class ERond implements Formula {
         return null;
     }
 }
+

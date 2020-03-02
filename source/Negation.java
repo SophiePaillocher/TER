@@ -1,8 +1,14 @@
 public class Negation implements Formula
 {
+    Formula formula;
+
+    public Negation(Formula formula) {
+        this.formula = formula;
+    }
+
     @Override
     public String asString() {
-        return null;
+        return "¬" + formula.asString();
     }
 
     @Override

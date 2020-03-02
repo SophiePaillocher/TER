@@ -1,9 +1,14 @@
 public class ELosange implements Formula {
-    @Override
-    public String asString() {
-        return null;
+    Formula formula;
+
+    public ELosange(Formula formula) {
+        this.formula = formula;
     }
 
+    @Override
+    public String asString() {
+        return "E◊" + formula.asString();
+    }
     @Override
     public Tree asTree() {
         return null;

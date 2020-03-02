@@ -1,7 +1,13 @@
 public class ACarre implements Formula {
+    Formula formula;
+
+    public ACarre(Formula formula) {
+        this.formula = formula;
+    }
+
     @Override
     public String asString() {
-        return null;
+        return "A◻" + formula.asString();
     }
 
     @Override
