@@ -1,17 +1,25 @@
 public class ACarre implements Formula {
-    Formula formula;
+    Formula child;
+    Formula parent;
 
     public ACarre(Formula formula) {
-        this.formula = formula;
+        this.child = formula;
+        child.setParent(this);
+        parent = null;
     }
 
     @Override
     public String asString() {
-        return "A◻" + formula.asString();
+        return "A◻" + child.asString();
     }
 
     @Override
-    public Tree asTree() {
-        return null;
+    public void setParent(Formula formula) {
+        this.parent = formula;
+    }
+
+    @Override
+    public Formula getParent() {
+        return parent;
     }
 }

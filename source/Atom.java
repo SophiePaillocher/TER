@@ -1,9 +1,12 @@
 public class Atom implements Formula {
 
+    Formula parent;
+
     private String name;
 
     public Atom(String name){
         this.name = name;
+        parent = null;
     }
 
     @Override
@@ -12,7 +15,12 @@ public class Atom implements Formula {
     }
 
     @Override
-    public Tree asTree() {
-        return null;
+    public void setParent(Formula formula) {
+        this.parent = formula;
+    }
+
+    @Override
+    public Formula getParent() {
+        return parent;
     }
 }

@@ -1,16 +1,24 @@
 public class ELosange implements Formula {
-    Formula formula;
+    Formula child, parent;
 
-    public ELosange(Formula formula) {
-        this.formula = formula;
+    public ELosange(Formula child) {
+        this.child = child;
+        child.setParent(this);
+        parent = null;
     }
 
     @Override
     public String asString() {
-        return "E◊" + formula.asString();
+        return "E◊" + child.asString();
     }
+
     @Override
-    public Tree asTree() {
-        return null;
+    public void setParent(Formula formula) {
+        this.parent = formula;
+    }
+
+    @Override
+    public Formula getParent() {
+        return parent;
     }
 }

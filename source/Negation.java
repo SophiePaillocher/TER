@@ -1,18 +1,25 @@
 public class Negation implements Formula
 {
-    Formula formula;
+    Formula child, parent;
 
-    public Negation(Formula formula) {
-        this.formula = formula;
+    public Negation(Formula child) {
+        this.child = child;
+        child.setParent(this);
+        parent = null;
     }
 
     @Override
     public String asString() {
-        return "¬ " + formula.asString();
+        return "¬ " + child.asString();
     }
 
     @Override
-    public Tree asTree() {
-        return null;
+    public void setParent(Formula formula) {
+        this.parent = formula;
+    }
+
+    @Override
+    public Formula getParent() {
+        return parent;
     }
 }

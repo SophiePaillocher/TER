@@ -1,19 +1,28 @@
 public class EU implements Formula {
-    private Formula formula1, formula2;
+    private Formula child1, child2, parent;
 
-    public EU(Formula formula1, Formula formula2) {
-        this.formula1 = formula1;
-        this.formula2 = formula2;
+    public EU(Formula child1, Formula child2) {
+        this.child1 = child1;
+        this.child2 = child2;
+        child1.setParent(this);
+        child2.setParent(this);
+        parent = null;
     }
 
     @Override
     public String asString() {
-        return "E(" + formula1.asString()+" U " + formula2.asString() +")";
+        return "E(" + child1.asString()+" U " + child2.asString() +")";
     }
 
 
+
     @Override
-    public Tree asTree() {
-        return null;
+    public void setParent(Formula formula) {
+        this.parent = formula;
+    }
+
+    @Override
+    public Formula getParent() {
+        return parent;
     }
 }

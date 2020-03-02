@@ -1,4 +1,5 @@
 public interface Formula {
     String asString();
-    Tree asTree();
+    void setParent(Formula formula);
+    Formula getParent();
 }

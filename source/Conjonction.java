@@ -1,20 +1,30 @@
 public class Conjonction implements Formula{
 
-    private Formula formula1, formula2;
+    private Formula child1, child2, parent;
 
-    public Conjonction(Formula formula1, Formula formula2){
-        this.formula1=formula1;
-        this.formula2=formula2;
+    public Conjonction(Formula child1, Formula child2){
+        this.child1 = child1;
+        this.child2 = child2;
+        child1.setParent(this);
+        child2.setParent(this);
+        parent = null;
     }
 
     @Override
     public String asString() {
 
-        return "(" + formula1.asString() + " ∧ " + formula2.asString() +")";
+        return "(" + child1.asString() + " ∧ " + child2.asString() +")";
+    }
+
+
+
+    @Override
+    public void setParent(Formula formula) {
+        this.parent = formula;
     }
 
     @Override
-    public Tree asTree() {
-        return null;
+    public Formula getParent() {
+        return parent;
     }
 }

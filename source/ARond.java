@@ -1,17 +1,25 @@
 public class ARond implements Formula {
-    Formula formula;
+    Formula child;
+    Formula parent;
 
-    public ARond(Formula formula) {
-        this.formula = formula;
+    public ARond(Formula child) {
+        this.child = child;
+        child.setParent(this);
+        parent = null;
     }
 
     @Override
     public String asString() {
-        return "A◯" + formula.asString();
+        return "A◯" + child.asString();
     }
 
     @Override
-    public Tree asTree() {
-        return null;
+    public void setParent(Formula formula) {
+        this.parent = formula;
+    }
+
+    @Override
+    public Formula getParent() {
+        return parent;
     }
 }
