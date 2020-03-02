@@ -21,4 +21,9 @@ public class ELosange implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return new EU(new Atom("True"), child.rewrite());
+    }
 }

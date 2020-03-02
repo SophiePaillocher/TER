@@ -25,4 +25,9 @@ public class Disjonction implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return new Negation(new Conjonction(new Negation(child1.rewrite()), new Negation(child2.rewrite())));
+    }
 }

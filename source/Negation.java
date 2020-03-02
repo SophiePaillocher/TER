@@ -22,4 +22,9 @@ public class Negation implements Formula
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return this;
+    }
 }

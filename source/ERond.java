@@ -22,5 +22,10 @@ public class ERond implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return this;
+    }
 }
 

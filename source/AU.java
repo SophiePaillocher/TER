@@ -23,4 +23,9 @@ public class AU implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return new Conjonction(new Negation(new EU(new Negation(child2.rewrite()), new Conjonction(new Negation(child1.rewrite()), new Negation(child2.rewrite())))), new ALosange(child2.rewrite()));
+    }
 }

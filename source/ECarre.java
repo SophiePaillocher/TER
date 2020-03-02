@@ -21,4 +21,9 @@ public class ECarre implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return new Negation(new ALosange(new Negation(child.rewrite())));
+    }
 }

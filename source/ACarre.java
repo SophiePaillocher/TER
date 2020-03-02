@@ -22,4 +22,9 @@ public class ACarre implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return new Negation(new EU (new Atom("True"), new Negation(child.rewrite())));
+    }
 }

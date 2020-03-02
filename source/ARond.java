@@ -22,4 +22,9 @@ public class ARond implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return new Negation(new ERond(new Negation(child.rewrite())));
+    }
 }

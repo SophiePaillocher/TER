@@ -25,4 +25,9 @@ public class EU implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return this;
+    }
 }

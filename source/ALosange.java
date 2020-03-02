@@ -23,4 +23,9 @@ public class ALosange implements Formula {
     public Formula getParent() {
         return parent;
     }
+
+    @Override
+    public Formula rewrite() {
+        return this;
+    }
 }
