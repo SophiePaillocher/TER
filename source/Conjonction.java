@@ -10,7 +10,7 @@ public class Conjonction implements Formula{
     @Override
     public String asString() {
 
-        return formula1.asString() + " ∧ " + formula2.asString();
+        return "(" + formula1.asString() + " ∧ " + formula2.asString() +")";
     }
 
     @Override

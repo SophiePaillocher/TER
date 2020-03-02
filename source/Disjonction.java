@@ -9,7 +9,7 @@ public class Disjonction implements Formula {
     @Override
     public String asString() {
 
-        return formula1.asString() + " ∨ " + formula2.asString();
+        return "("+formula1.asString() + " ∨ " + formula2.asString() +")";
     }
 
     @Override

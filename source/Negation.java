@@ -8,7 +8,7 @@ public class Negation implements Formula
 
     @Override
     public String asString() {
-        return "¬" + formula.asString();
+        return "¬ " + formula.asString();
     }
 
     @Override
