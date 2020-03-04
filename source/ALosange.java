@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ALosange implements Formula {
 
     Formula child;
@@ -27,5 +29,9 @@ public class ALosange implements Formula {
     @Override
     public Formula rewrite() {
         return this;
+    }
+    @Override
+    public ArrayList<Formula> getAtoms() {
+        return child.getAtoms();
     }
 }

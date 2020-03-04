@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ACarre implements Formula {
     Formula child;
     Formula parent;
@@ -26,5 +28,9 @@ public class ACarre implements Formula {
     @Override
     public Formula rewrite() {
         return new Negation(new EU (new Atom("True"), new Negation(child.rewrite())));
+    }
+    @Override
+    public ArrayList<Formula> getAtoms() {
+        return child.getAtoms();
     }
 }

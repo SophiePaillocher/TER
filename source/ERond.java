@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ERond implements Formula {
     Formula child, parent;
 
@@ -26,6 +28,10 @@ public class ERond implements Formula {
     @Override
     public Formula rewrite() {
         return this;
+    }
+    @Override
+    public ArrayList<Formula> getAtoms() {
+        return child.getAtoms();
     }
 }
 

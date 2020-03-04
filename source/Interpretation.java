@@ -52,7 +52,7 @@ public class Interpretation {
         return relations.get(sommet);
     }
 
-    public ArrayList<String> getMarquings(String sommet){
+    public ArrayList<String> getLabelsOfVertex(String sommet){
         return labels.get(sommet);
     }
 

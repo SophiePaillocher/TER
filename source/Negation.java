@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Negation implements Formula
 {
     Formula child, parent;
@@ -26,5 +28,9 @@ public class Negation implements Formula
     @Override
     public Formula rewrite() {
         return this;
+    }
+    @Override
+    public ArrayList<Formula> getAtoms() {
+        return child.getAtoms();
     }
 }

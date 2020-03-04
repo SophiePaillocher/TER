@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Atom implements Formula {
 
     Formula parent;
@@ -27,5 +29,12 @@ public class Atom implements Formula {
     @Override
     public Formula rewrite() {
         return this;
+    }
+
+    @Override
+    public ArrayList<Formula> getAtoms() {
+        ArrayList<Formula> toReturn =new ArrayList<>();
+        toReturn.add(this);
+        return toReturn;
     }
 }
