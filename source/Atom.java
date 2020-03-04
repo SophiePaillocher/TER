@@ -37,8 +37,8 @@ public class Atom implements Formula {
     }
 
     @Override
-    public ArrayList<Formula> getAtoms() {
-        ArrayList<Formula> toReturn =new ArrayList<>();
+    public ArrayList<Atom> getAtoms() {
+        ArrayList<Atom> toReturn =new ArrayList<>();
         toReturn.add(this);
         return toReturn;
     }

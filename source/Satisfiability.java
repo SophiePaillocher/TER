@@ -132,7 +132,40 @@ public class Satisfiability {
         }
     }
 
+    // A refaire en utilisant accept() car ça brule les yeux
+    public void markSat(Formula formula){
+        switch (formula.getClass().getName()){
+            case "Atom" : markSat((Atom) formula);
+            break;
+            case "Negation" : markSat(((Negation) formula));
+            break;
+            case "ERond" : markSat((ERond) formula);
+            break;
+            case "ALosange": markSat((ALosange) formula);
+            break;
+            case "EU": markSat((EU) formula);
+            break;
+            case "Conjonction" : markSat((Conjonction) formula);
+            break;
+        }
+    }
+
     public boolean sat(Formula formula){
-        return false;
+        Formula f = formula.rewrite();
+        for (Atom atom : f.getAtoms()){
+            markSat(atom);
+        }
+        for (Atom atom : f.getAtoms()){
+            Formula parent = atom.getParent();
+            while (parent != null){
+                parent = parent.getParent();
+                markSat(parent);
+            }
+        }
+        if (marks.containsValue(f)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

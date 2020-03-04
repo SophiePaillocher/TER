@@ -38,8 +38,8 @@ public class EU implements Formula {
         return this;
     }
     @Override
-    public ArrayList<Formula> getAtoms() {
-        ArrayList<Formula> atoms = child1.getAtoms();
+    public ArrayList<Atom> getAtoms() {
+        ArrayList<Atom> atoms = child1.getAtoms();
         atoms.addAll(child2.getAtoms());
         return atoms;
     }

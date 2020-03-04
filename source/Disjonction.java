@@ -38,8 +38,8 @@ public class Disjonction implements Formula {
         return new Negation(new Conjonction(new Negation(child1.rewrite()), new Negation(child2.rewrite())));
     }
     @Override
-    public ArrayList<Formula> getAtoms() {
-        ArrayList<Formula> atoms = child1.getAtoms();
+    public ArrayList<Atom> getAtoms() {
+        ArrayList<Atom> atoms = child1.getAtoms();
         atoms.addAll(child2.getAtoms());
         return atoms;
     }

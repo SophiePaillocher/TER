@@ -35,7 +35,7 @@ public class ACarre implements Formula {
         return new Negation(new EU (new Atom("True"), new Negation(child.rewrite())));
     }
     @Override
-    public ArrayList<Formula> getAtoms() {
+    public ArrayList<Atom> getAtoms() {
         return child.getAtoms();
     }
 

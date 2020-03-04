@@ -36,7 +36,7 @@ public class ALosange implements Formula {
         return this;
     }
     @Override
-    public ArrayList<Formula> getAtoms() {
+    public ArrayList<Atom> getAtoms() {
         return child.getAtoms();
     }
 

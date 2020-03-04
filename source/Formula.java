@@ -9,7 +9,7 @@ public interface Formula {
     // fonction de rééecriture de la fonction en vue du Model Checking
     Formula rewrite();
     //retourne les feuilles de l'arbre syntaxique de la formule
-    ArrayList<Formula> getAtoms();
+    ArrayList<Atom> getAtoms();
 
     Formula getChild1();
 

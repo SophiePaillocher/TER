@@ -36,8 +36,8 @@ public class AU implements Formula {
         return new Conjonction(new Negation(new EU(new Negation(child2.rewrite()), new Conjonction(new Negation(child1.rewrite()), new Negation(child2.rewrite())))), new ALosange(child2.rewrite()));
     }
     @Override
-    public ArrayList<Formula> getAtoms() {
-        ArrayList<Formula> atoms = child1.getAtoms();
+    public ArrayList<Atom> getAtoms() {
+        ArrayList<Atom> atoms = child1.getAtoms();
         atoms.addAll(child2.getAtoms());
         return atoms;
     }

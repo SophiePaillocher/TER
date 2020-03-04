@@ -34,7 +34,7 @@ public class ELosange implements Formula {
         return new EU(new Atom("True"), child.rewrite());
     }
     @Override
-    public ArrayList<Formula> getAtoms() {
+    public ArrayList<Atom> getAtoms() {
         return child.getAtoms();
     }
 
