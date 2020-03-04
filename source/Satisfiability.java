@@ -66,4 +66,15 @@ public class Satisfiability {
                }
           }
     }
+
+    public void markSat(ERond formula){
+          for (String vertex : interpretation.getVertices()) {
+              for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
+                  if (interpretation.getLabelsOfVertex(nextVertex).contains(formula.getChild().toString())){
+                     addMarkAtVertex(vertex, formula);
+                     break;
+                  }
+              }
+          }
+    }
 }
