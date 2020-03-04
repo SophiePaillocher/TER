@@ -41,7 +41,29 @@ public class Satisfiability {
             temp.add(formula);
             marks.replace(vertex, temp);
         }
+    }
 
+    public void markSat(Atom atom){
+         for (String vertex : interpretation.getVertices()) {
+             if (interpretation.getLabelsOfVertex(vertex).contains(atom.toString())){
+                 addMarkAtVertex(vertex,atom);
+             }
+         }
+    }
 
+    public void markSat(Negation formula){
+          for (String vertex : interpretation.getVertices()) {
+               if (!interpretation.getLabelsOfVertex(vertex).contains(formula.getChild().toString())) {
+                   addMarkAtVertex(vertex, formula);
+               }
+          }
+    }
+
+    public void markSat(Conjonction formula){
+          for (String vertex : interpretation.getVertices()) {
+               if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild1().toString()) && interpretation.getLabelsOfVertex(vertex).contains(formula.getChild2().toString()) ) {
+                    addMarkAtVertex(vertex, formula);
+               }
+          }
     }
 }
