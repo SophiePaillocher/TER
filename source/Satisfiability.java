@@ -77,4 +77,50 @@ public class Satisfiability {
               }
           }
     }
+
+    public void markSat(EU formula){
+           for (String vertex : interpretation.getVertices()) {
+                if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild2().toString())) {
+                    addMarkAtVertex(vertex, formula);
+                }
+           }
+           //répéter jusqu'a ce qu'il n'y ait plus de nouveau marquage
+           for (String vertex : interpretation.getVertices()) {
+                if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild1().toString())) {
+                    boolean marked = true;
+                    for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
+                           if (!interpretation.getLabelsOfVertex(nextVertex).contains(formula.getChild().toString())){
+                              marked = false;
+                           }
+                    }
+                    if (marked){
+                        addMarkAtVertex(vertex, formula);
+                    }
+                }
+           }
+    }
+
+    public void markSat(ALosange formula){
+           for (String vertex : interpretation.getVertices()) {
+                if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild().toString())) {
+                    addMarkAtVertex(vertex, formula);
+                }
+           }
+           //répéter jusqu'a ce qu'il n'y ait plus de nouveau marquage
+           for (String vertex : interpretation.getVertices()) {
+                  boolean marked = true;
+                  for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
+                         if (!interpretation.getLabelsOfVertex(nextVertex).contains(formula.getChild().toString())){
+                            marked = false;
+                         }
+                  }
+                  if (marked){
+                      addMarkAtVertex(vertex, formula);
+                  }
+           }                                                                                               
+    }
+
+    public boolean sat(Formula formula){
+        return false;
+    }
 }
