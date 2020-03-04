@@ -53,7 +53,7 @@ public class Satisfiability {
 
     public void markSat(Negation formula){
           for (String vertex : interpretation.getVertices()) {
-               if (!interpretation.getLabelsOfVertex(vertex).contains(formula.getChild().toString())) {
+              if (!marks.get(vertex).contains(formula.getChild())){
                    addMarkAtVertex(vertex, formula);
                }
           }
@@ -61,7 +61,7 @@ public class Satisfiability {
 
     public void markSat(Conjonction formula){
           for (String vertex : interpretation.getVertices()) {
-               if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild1().toString()) && interpretation.getLabelsOfVertex(vertex).contains(formula.getChild2().toString()) ) {
+               if ((marks.get(vertex).contains(formula.getChild1())) && (marks.get(vertex).contains(formula.getChild2())) ) {
                     addMarkAtVertex(vertex, formula);
                }
           }
@@ -70,7 +70,7 @@ public class Satisfiability {
     public void markSat(ERond formula){
           for (String vertex : interpretation.getVertices()) {
               for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
-                  if (interpretation.getLabelsOfVertex(nextVertex).contains(formula.getChild().toString())){
+                  if ((marks.get(nextVertex).contains(formula.getChild()))){
                      addMarkAtVertex(vertex, formula);
                      break;
                   }
@@ -80,44 +80,56 @@ public class Satisfiability {
 
     public void markSat(EU formula){
            for (String vertex : interpretation.getVertices()) {
-                if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild2().toString())) {
+                if ((marks.get(vertex).contains(formula.getChild2()))) {
                     addMarkAtVertex(vertex, formula);
                 }
            }
-           //répéter jusqu'a ce qu'il n'y ait plus de nouveau marquage
-           for (String vertex : interpretation.getVertices()) {
+        boolean newMark =true;
+        while (newMark){
+            HashMap<String, ArrayList<Formula>> oldMarks = marks;
+            for (String vertex : interpretation.getVertices()) {
                 if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild1().toString())) {
                     boolean marked = true;
                     for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
-                           if (!interpretation.getLabelsOfVertex(nextVertex).contains(formula.getChild().toString())){
-                              marked = false;
-                           }
+                        if (!(marks.get(nextVertex).contains(formula.getChild()))) {
+                            marked = false;
+                        }
                     }
-                    if (marked){
+                    if (marked) {
                         addMarkAtVertex(vertex, formula);
                     }
                 }
-           }
+            }
+            if (marks.equals(oldMarks)){
+                newMark= false;
+            }
+        }
     }
 
     public void markSat(ALosange formula){
            for (String vertex : interpretation.getVertices()) {
-                if (interpretation.getLabelsOfVertex(vertex).contains(formula.getChild().toString())) {
+                if ((marks.get(vertex).contains(formula.getChild()))) {
                     addMarkAtVertex(vertex, formula);
                 }
            }
-           //répéter jusqu'a ce qu'il n'y ait plus de nouveau marquage
-           for (String vertex : interpretation.getVertices()) {
-                  boolean marked = true;
-                  for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
-                         if (!interpretation.getLabelsOfVertex(nextVertex).contains(formula.getChild().toString())){
-                            marked = false;
-                         }
-                  }
-                  if (marked){
-                      addMarkAtVertex(vertex, formula);
-                  }
-           }                                                                                               
+        boolean newMark =true;
+        while (newMark) {
+            HashMap<String, ArrayList<Formula>> oldMarks = marks;
+            for (String vertex : interpretation.getVertices()) {
+                boolean marked = true;
+                for (String nextVertex : interpretation.getSuccesseurs(vertex)) {
+                    if (!(marks.get(nextVertex).contains(formula.getChild()))) {
+                        marked = false;
+                    }
+                }
+                if (marked) {
+                    addMarkAtVertex(vertex, formula);
+                }
+            }
+            if (marks.equals(oldMarks)) {
+                newMark = false;
+            }
+        }
     }
 
     public boolean sat(Formula formula){
