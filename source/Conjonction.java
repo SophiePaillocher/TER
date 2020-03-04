@@ -31,6 +31,11 @@ public class Conjonction implements Formula{
     }
 
     @Override
+    public Formula getChild() {
+        return null;
+    }
+
+    @Override
     public Formula rewrite() {
         return this;
     }
@@ -40,5 +45,15 @@ public class Conjonction implements Formula{
         ArrayList<Formula> atoms = child1.getAtoms();
         atoms.addAll(child2.getAtoms());
         return atoms;
+    }
+
+    @Override
+    public Formula getChild1() {
+        return child1;
+    }
+
+    @Override
+    public Formula getChild2() {
+        return child2;
     }
 }

@@ -27,6 +27,11 @@ public class Atom implements Formula {
     }
 
     @Override
+    public Formula getChild() {
+        return null;
+    }
+
+    @Override
     public Formula rewrite() {
         return this;
     }
@@ -36,5 +41,15 @@ public class Atom implements Formula {
         ArrayList<Formula> toReturn =new ArrayList<>();
         toReturn.add(this);
         return toReturn;
+    }
+
+    @Override
+    public Formula getChild1() {
+        return null;
+    }
+
+    @Override
+    public Formula getChild2() {
+        return null;
     }
 }

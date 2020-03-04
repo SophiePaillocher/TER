@@ -29,6 +29,11 @@ public class Disjonction implements Formula {
     }
 
     @Override
+    public Formula getChild() {
+        return null;
+    }
+
+    @Override
     public Formula rewrite() {
         return new Negation(new Conjonction(new Negation(child1.rewrite()), new Negation(child2.rewrite())));
     }
@@ -37,5 +42,15 @@ public class Disjonction implements Formula {
         ArrayList<Formula> atoms = child1.getAtoms();
         atoms.addAll(child2.getAtoms());
         return atoms;
+    }
+
+    @Override
+    public Formula getChild1() {
+        return child1;
+    }
+
+    @Override
+    public Formula getChild2() {
+        return child2;
     }
 }

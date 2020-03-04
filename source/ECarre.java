@@ -25,11 +25,26 @@ public class ECarre implements Formula {
     }
 
     @Override
+    public Formula getChild() {
+        return child;
+    }
+
+    @Override
     public Formula rewrite() {
         return new Negation(new ALosange(new Negation(child.rewrite())));
     }
     @Override
     public ArrayList<Formula> getAtoms() {
         return child.getAtoms();
+    }
+
+    @Override
+    public Formula getChild1() {
+        return child;
+    }
+
+    @Override
+    public Formula getChild2() {
+        return child;
     }
 }

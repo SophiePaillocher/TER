@@ -26,6 +26,11 @@ public class ARond implements Formula {
     }
 
     @Override
+    public Formula getChild() {
+        return child;
+    }
+
+    @Override
     public Formula rewrite() {
         return new Negation(new ERond(new Negation(child.rewrite())));
     }
@@ -33,5 +38,15 @@ public class ARond implements Formula {
     @Override
     public ArrayList<Formula> getAtoms() {
         return child.getAtoms();
+    }
+
+    @Override
+    public Formula getChild1() {
+        return child;
+    }
+
+    @Override
+    public Formula getChild2() {
+        return child;
     }
 }
