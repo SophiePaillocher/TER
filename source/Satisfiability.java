@@ -2,6 +2,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// il faut marquer les formules de l'arbre et non pas les sommets de l'interprétation
 public class Satisfiability {
     private Interpretation interpretation;
     private HashMap<String, ArrayList<Formula>> marks;

@@ -12,6 +12,8 @@ public class Interpretation {
         labels = new HashMap<>();
         relations = new HashMap<>();
     }
+
+    // initialiser les labels en associant "True" à chaque sommet (solution provisoire)
     public void Interpretation (ArrayList<String> verteces){
         this.vertices = verteces;
         this.labels = new HashMap<>();
