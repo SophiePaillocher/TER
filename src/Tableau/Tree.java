@@ -1,6 +1,7 @@
 package Tableau;
 import logic.*;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -63,7 +64,7 @@ public class Tree {
      * This is a function that will look at a node and do the appropriate action giving us it's list of successors
      * if the list is empty then the node has none
      * @param n
-     * @return ArrayList</State>
+     * @return ArrayList</Node>
      */
     private ArrayList<Node> traiter(Node n)
     {
@@ -72,8 +73,12 @@ public class Tree {
         ArrayList<Node> ret = new ArrayList<>() ;
         if(!(i==-1))
         {
+            //this is where we "store the node we chose" so that when reading through we know what "operation" we chose
+            n.setChosenOne(n.getTo_develop().get(i));
             //this will be the to_develop of the "infant" nodes
             ArrayList<Formula> tDvl1 = new ArrayList<>();
+            ArrayList<Formula> mrk = new ArrayList<>(n.getMarks());
+            mrk.add(n.getTo_develop().get(i));
             //if there are some formulas to carry over to the infants this is where we get them
             if(n.getTo_develop().size() > 1)
             {
@@ -82,49 +87,138 @@ public class Tree {
                     if(j != i)
                     {
                         tDvl1.add(n.getTo_develop().get(j));
+                        ret.add(new Node(mrk , tDvl1));
                     }
                 }
             }
-            //Si ona une negation
+            //Si on a une negation ¬F
             if(n.getTo_develop().get(i) instanceof Negation)
             {
                 Negation f1 = (Negation)n.getTo_develop().get(i);
+                //¬¬(F)
                 if(f1.getF() instanceof Negation)
                 {
                     tDvl1.add(((Negation)f1.getF()).getF());
-                    //todo: missing the markings
-                    Node nTmp = new Node();
-                    nTmp.getTo_develop().addAll(tDvl1);
+                    Node nTmp = new Node(mrk, tDvl1);
                     ret.add(nTmp);
                 }
-                Node n1 = new Node();
-                n1.getTo_develop().addAll(tDvl1);
-                Node n2 = new Node();
-                n2.getTo_develop().addAll(tDvl1);
+                Node n1 = new Node(mrk, tDvl1);
+                Node n2 = new Node(mrk, tDvl1);
+                //¬(Q(f1 Op f2))
                 if(f1.getF() instanceof QF1opF2)
                 {
                     Negation a;
                     Negation b;
                     QF1opF2 temp = (QF1opF2)f1.getF();
+                    //¬(a v b)
                     if(temp.getQ() == null && temp.getOp() instanceof Disjunction)
                     {
                         a = new Negation(null, temp.getF1());
                         b = new Negation(null, temp.getF2());
-
+                        n1.getTo_develop().add(a);
+                        n2.getTo_develop().add(b);
+                        ret.add(n1);
+                        ret.add(n2);
                     }
-
+                    //E (a U b)
+                    if(temp.getQ() instanceof Every && temp.getOp() instanceof Until)
+                    {
+                        b = new Negation(null, temp.getF2());
+                        a = new Negation(null, temp.getF1());
+                        n1.getTo_develop().add(b);
+                        QF1opF2 naVnErond = new QF1opF2(null, new Disjunction(), a, new Negation(null, new QopF(new Every(), new Ring(), temp )));
+                        n2.getTo_develop().add(naVnErond);
+                        ret.add(n1);
+                        ret.add(n2);
+                    }
+                    //A (a U b)
+                    if(temp.getQ() instanceof ForAll && temp.getOp() instanceof Until)
+                    {
+                        a = new Negation(null, temp.getF1());
+                        b = new Negation(null, temp.getF2());
+                        n1.getTo_develop().add(b);
+                        QF1opF2 naVnArond = new QF1opF2(null, new Disjunction(), a, new QopF(new ForAll(), new Ring(), temp));
+                        n2.getTo_develop().add(naVnArond);
+                        ret.add(n1);
+                        ret.add(n2);
+                    }
                 }
+            }
+            //si on a Q op f
+            if(n.getTo_develop().get(i) instanceof QopF)
+            {
+                QopF f1 = (QopF)n.getTo_develop().get(i);
+                Node n1 = new Node(mrk, tDvl1);
+                Node n2 = new Node(mrk, tDvl1);
+                n1.getTo_develop().add(f1.getF());
+                //E G a
+                if(f1.getQ() instanceof Every && f1.getOp() instanceof Square)
+                {
+                    QopF eRond = new QopF(new Every(), new Ring(), f1);
+                    n2.getTo_develop().add(eRond);
+                }
+                // A G a
+                if(f1.getQ() instanceof ForAll && f1.getOp() instanceof Square)
+                {
+                    QopF aRond = new QopF(new ForAll(), new Ring(), f1);
+                    n2.getTo_develop().add(aRond);
+                }
+                ret.add(n1);
+                ret.add(n2);
             }
         }
         i = hasDisjuntionFormula(n);
         if(!(i==-1))
         {
-            //todo: implementer le tabelau de Disjunction
+            //this is where we "store the node we chose" so that when reading through we know what "operation" we chose
+            n.setChosenOne(n.getTo_develop().get(i));
+            //this will be the to_develop of the "infant" nodes
+            ArrayList<Formula> tDvl1 = new ArrayList<>();
+            ArrayList<Formula> mrk = new ArrayList<>(n.getMarks());
+            mrk.add(n.getTo_develop().get(i));
+            //if there are some formulas to carry over to the infants this is where we get them
+            if(n.getTo_develop().size() > 1)
+            {
+                for(int j =0; j < n.getTo_develop().size() ; j++)
+                {
+                    if(j != i)
+                    {
+                        tDvl1.add(n.getTo_develop().get(j));
+                        ret.add(new Node(mrk , tDvl1));
+                    }
+                }
+            }
+            //Q(f1 Op f2)
+            if(n.getTo_develop().get(i) instanceof QF1opF2)
+            {
+                QF1opF2 f1 = (QF1opF2)n.getTo_develop().get(i);
+                //a V b
+                if(f1.getQ() == null && f1.getOp() instanceof Disjunction)
+                {
+                    //todo
+                }
+
+            }
         }
         i = hasSuccessorFormula(n);
         if(!(i==-1))
         {
-            //todo:implementer le tableau de successor
+            ArrayList<Formula> tDvl1 = new ArrayList<>();
+            ArrayList<Formula> mrk = new ArrayList<>();
+            //if there are some formulas to carry over to the infants this is where we get them
+            if(n.getTo_develop().get(i) instanceof Negation)
+            {
+
+                Negation f = (Negation)n.getTo_develop().get(i);
+                tDvl1.add(new Negation(null, ((QopF)f.getF()).getF()));
+                ret.add(new Node(mrk, tDvl1));
+            }
+            else
+            {
+                QopF f = (QopF)n.getTo_develop().get(i);
+                tDvl1.add(f.getF());
+                ret.add(new Node(mrk, tDvl1));
+            }
         }
         return ret;
     }
