@@ -22,7 +22,7 @@ public class Negation extends Formula {
         f.setParent(this);
     }
 
-    protected Negation() {
+    public Negation() {
         super();
     }
 

@@ -50,6 +50,8 @@ public class main {
         states.add(s6);
         Interpretation model = new Interpretation(states,s);
 
+        /**
+
         //testons si chaque état a bien la liste de ses prédécesseurs
         for (State state : states ){
             System.out.print("les successeurs de "+ state.getName()+ " sont : ");
@@ -68,6 +70,7 @@ public class main {
         for (State state : states ){
             System.out.println("l'état " + state.getName()+" est étiquetté : " + state.getLabels());
         }
+        **/
     }
 
 

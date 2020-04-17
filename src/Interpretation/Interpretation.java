@@ -61,7 +61,7 @@ public class Interpretation {
     }
 
     //la je me preocupe pas si la formule est reecrite ou pas
-    private ArrayList <State> sat_(Formula f){
+    public ArrayList <State> sat_(Formula f){
         String testSub = f.toString(); //si jamais on a une formule compliquee on n'a pas a refaire le calcul.
         ArrayList<State> res_list = new ArrayList<>();
         if (f instanceof Negation)
