@@ -18,6 +18,7 @@ public class State {
         this.predecessors = new ArrayList<>();
         this.successors = new ArrayList<>();
         this.marks = new ArrayList<>();
+        this.labels = new ArrayList<>();
     }
 
     public State(String name, ArrayList<State> predecessors, ArrayList<State> successors) {
@@ -59,38 +60,42 @@ public class State {
         return successors;
     }
 
+    public ArrayList<String> getLabels() {
+        return labels;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPredecessors(ArrayList<State> predecessors) {
-        this.predecessors = predecessors;
-    }
-
-    public void setSuccessors(ArrayList<State> successors) {
-        this.successors = successors;
-        for (State child : successors){
-            child.addParent(this);
-        }
-    }
-
-    public void addParent(State p) {
+    public void addPredecessor(State p) {
         this.predecessors.add(p);
     }
 
-    public void addParents(ArrayList<State> p) {
+    public void addPredecessors(ArrayList<State> p) {
         this.predecessors.addAll(p);
     }
 
-    public void addSon(State s) {
+    public void addSuccessor(State s) {
         this.successors.add(s);
+        s.addPredecessor(this);
     }
 
-    public void addSons(ArrayList<State> s) {
-        this.successors.addAll(s);
+    public void addSuccessors(ArrayList<State> successors) {
+        this.successors.addAll(successors);
+        for (State s : successors){
+            s.addPredecessor(this);
+        }
     }
 
-    public void setLabels(ArrayList<String> labels){ this.labels = labels; marks = labels;}
+    public void addLabel(String label){ labels.add(label); marks.add(label);}
+
+    public void addLabels(ArrayList<String> labels){
+        labels.addAll(labels);
+        for (String label : labels){
+             marks.add(label);
+        }
+    }
 
     public void setMarks(ArrayList<String> marks) {
         this.marks = marks;
@@ -147,4 +152,6 @@ public class State {
         }
         return false;
     }
+
+
 }

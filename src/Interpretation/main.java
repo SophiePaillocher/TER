@@ -7,41 +7,38 @@ public class main {
     public static void main(String[] args) {
 
         // initialisation des états étiquettés
-        ArrayList<String> e = new ArrayList<>();
-        e.add("p");
-        State s = new State("s",e);
-        State s1 = new State("s1",e);
-        State s5 = new State("s5",e);
-        e.add("r");
-        State s6 = new State ("s6", e);
-        e.add("r");
-        State s3 = new State ("s3",e);
-        e.clear();
-        e.add("q");
-        State s2 = new State("s2",e);
-        e.add("p");
-        State s4 = new State("s4", e);
+        State s = new State("s");
+        s.addLabel("p");
+        State s1 = new State("s1");
+        s1.addLabel("p");
+        State s2 = new State("s2");
+        s2.addLabel("q");
+        State s3 = new State ("s3");
+        s3.addLabel("p");
+        s3.addLabel("q");
+        s3.addLabel("r");
+        State s4 = new State("s4");
+        s4.addLabel("p");
+        s4.addLabel("q");
+        State s5 = new State("s5");
+        s5.addLabel("p");
+        State s6 = new State ("s6");
+        s6.addLabel("p");
+        s6.addLabel("r");
+
 
         //ajout des relations entre les états
-        ArrayList<State> tempSucc = new ArrayList<>();
-        tempSucc.add(s6);
-        tempSucc.add(s1);
-        tempSucc.add(s2);
-        s.setSuccessors(tempSucc);
+        s.addSuccessor(s6);
+        s.addSuccessor(s1);
+        s.addSuccessor(s2);
+        s6.addSuccessor(s4);
+        s1.addSuccessor(s4);
+        s2.addSuccessor(s3);
+        s4.addSuccessor(s4);
+        s3.addSuccessor(s4);
+        s3.addSuccessor(s5);
+        s5.addSuccessor(s5);
 
-        tempSucc.clear();
-        /**
-        tempSucc.add(s4);
-        s6.setSuccessors(tempSucc);
-        s1.setSuccessors(tempSucc);
-        s2.setSuccessors(tempSucc);
-        s4.setSuccessors(tempSucc);
-        tempSucc.add(s5);
-        s3.setSuccessors(tempSucc);
-        tempSucc.clear();
-        tempSucc.add(s5);
-        s5.setSuccessors(tempSucc);
-**/
         //création du modèle
         ArrayList<State> states = new ArrayList<>();
         states.add(s);
@@ -60,12 +57,18 @@ public class main {
                 System.out.print(succ.getName() + " ");
             }
             System.out.println();
-            System.out.print("les prédécessures de "+ state.getName()+ " sont : ");
+            System.out.print("les prédécesseurs de "+ state.getName()+ " sont : ");
             for (State pred : state.getPredecessors()){
                 System.out.print(pred.getName() + " ");
             }
             System.out.println();
         }
 
+        //testons si les états sont bien étiquettés
+        for (State state : states ){
+            System.out.println("l'état " + state.getName()+" est étiquetté : " + state.getLabels());
+        }
     }
+
+
 }
