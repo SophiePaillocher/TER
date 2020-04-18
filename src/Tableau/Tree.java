@@ -10,6 +10,30 @@ public class Tree {
     ArrayList<Node> tree;
     Node root;
 
+    public Tree() {
+        tree = new ArrayList<>();
+    }
+
+    public Tree(ArrayList<Node> tree, Node root) {
+        this.tree = tree;
+        this.root = root;
+        create();
+    }
+
+    public Tree(Node root) {
+        this.root = root;
+        this.tree = new ArrayList<>();
+        create();
+    }
+
+    public Tree(Formula f)
+    {
+        this.tree = new ArrayList<>();
+        this.root = new Node();
+        root.getTo_develop().add(f);
+        create();
+    }
+
     public void setTree(ArrayList<Node> tree) {
         this.tree = tree;
     }
@@ -54,9 +78,27 @@ public class Tree {
         ArrayList<Node> a_traiter = new ArrayList<>();
         ArrayList<Node> traite = new ArrayList<>();
         a_traiter.add(this.root);
-        while(a_traiter.size( ) > 0)
+        tree.add(root);
+        Boolean test = false;
+        while( ! test)
         {
+           ArrayList<Node> temp = traiter(a_traiter.get(0));
+           for(Node n : temp)
+           {
+               if(!(traite.indexOf(n)==-1)){
+                   a_traiter.get(0).addFollower(traite.get(traite.indexOf(n)));
+               }
+               else
+               {
+                 a_traiter.get(0).addFollower(n);
+                 a_traiter.add(n);
+                 tree.add(n);
+               }
 
+           }
+           traite.add(a_traiter.get(0));
+           a_traiter.remove(0);
+           if(a_traiter.size()==0)test=true;
         }
     }
 
@@ -87,7 +129,6 @@ public class Tree {
                     if(j != i)
                     {
                         tDvl1.add(n.getTo_develop().get(j));
-                        ret.add(new Node(mrk , tDvl1));
                     }
                 }
             }
@@ -100,10 +141,13 @@ public class Tree {
                 {
                     tDvl1.add(((Negation)f1.getF()).getF());
                     Node nTmp = new Node(mrk, tDvl1);
+                    nTmp.setNumber(n.getNumber()+1);
                     ret.add(nTmp);
                 }
                 Node n1 = new Node(mrk, tDvl1);
+                n1.setNumber(n.getNumber()+1);
                 Node n2 = new Node(mrk, tDvl1);
+                n2.setNumber(n.getNumber()+2);
                 //¬(Q(f1 Op f2))
                 if(f1.getF() instanceof QF1opF2)
                 {
@@ -149,7 +193,9 @@ public class Tree {
             {
                 QopF f1 = (QopF)n.getTo_develop().get(i);
                 Node n1 = new Node(mrk, tDvl1);
+                n1.setNumber(n.getNumber()+1);
                 Node n2 = new Node(mrk, tDvl1);
+                n2.setNumber(n.getNumber()+2);
                 n1.getTo_develop().add(f1.getF());
                 //E G a
                 if(f1.getQ() instanceof Every && f1.getOp() instanceof Square)
@@ -166,6 +212,7 @@ public class Tree {
                 ret.add(n1);
                 ret.add(n2);
             }
+            return ret;
         }
         i = hasDisjuntionFormula(n);
         if(!(i==-1))
@@ -184,10 +231,11 @@ public class Tree {
                     if(j != i)
                     {
                         tDvl1.add(n.getTo_develop().get(j));
-                        ret.add(new Node(mrk , tDvl1));
                     }
                 }
             }
+            Node a = new Node(mrk, tDvl1);
+            Node b = new Node (mrk, tDvl1);
             //Q(f1 Op f2)
             if(n.getTo_develop().get(i) instanceof QF1opF2)
             {
@@ -195,10 +243,50 @@ public class Tree {
                 //a V b
                 if(f1.getQ() == null && f1.getOp() instanceof Disjunction)
                 {
-                    //todo
+                    a.getTo_develop().add(f1.getF1());
+                    b.getTo_develop().add(f1.getF2());
+                    ret.add(a);
+                    ret.add(b);
+                }
+                //E (a U b)
+                if(f1.getQ() instanceof Every && f1.getOp() instanceof Until)
+                {
+                    a.getTo_develop().add(f1.getF2());
+                    b.getTo_develop().add(new QF1opF2(null, new Conjunction(), f1.getF1(), new QopF(new Every(), new Ring(), f1)));
+                    ret.add(a);
+                    ret.add(b);
+                }
+                //A(a U b)
+                if(f1.getQ() instanceof ForAll && f1.getOp() instanceof Until)
+                {
+                    a.getTo_develop().add(f1.getF2());
+                    b.getTo_develop().add(new QF1opF2(null, new Conjunction(),f1.getF1(), f1));
+                    ret.add(a);
+                    ret.add(b);
                 }
 
             }
+            //Q Op F
+            if(n.getTo_develop().get(i) instanceof QopF)
+            {
+                QopF f1 = (QopF)n.getTo_develop().get(i);
+                a.getTo_develop().add(f1.getF());
+                //E F f
+                if(f1.getQ() instanceof Every && f1.getOp() instanceof Diamond)
+                {
+                    b.getTo_develop().add(new QopF(new Every(), new Ring(), f1));
+                    ret.add(a);
+                    ret.add(b);
+                }
+                //A F f
+                if(f1.getQ() instanceof ForAll && f1.getOp() instanceof Diamond)
+                {
+                    b.getTo_develop().add(new QopF(new ForAll(), new Ring(), f1));
+                    ret.add(a);
+                    ret.add(b);
+                }
+            }
+            return ret;
         }
         i = hasSuccessorFormula(n);
         if(!(i==-1))
@@ -219,6 +307,7 @@ public class Tree {
                 tDvl1.add(f.getF());
                 ret.add(new Node(mrk, tDvl1));
             }
+            return ret;
         }
         return ret;
     }
@@ -281,8 +370,7 @@ public class Tree {
             QopF f_ = (QopF)f;
             if(f_.getQ() instanceof Every && f_.getOp() instanceof Square)
                 return true;
-            if(f_.getQ() instanceof ForAll && f_.getOp() instanceof Square)
-                return true;
+            return f_.getQ() instanceof ForAll && f_.getOp() instanceof Square;
         }
         return false;
     }
@@ -321,7 +409,7 @@ public class Tree {
     }
 
     /**
-     * This is to tell if we have f and !f to be dealth with so that we can "close" thebranch
+     * This is to tell if we have f and !f to be dealt with so that we can "close" the branch
      * @param list
      * @return boolean
      */
