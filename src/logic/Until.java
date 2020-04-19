@@ -4,7 +4,7 @@ package logic;
 
 public class Until extends Operator {
 
-    protected Until() {
+    public Until() {
         super(" U ");
     }
 

@@ -76,8 +76,17 @@ public class Node {
         if (this == o) return true;
         if (!(o instanceof Node)) return false;
         Node node = (Node) o;
-        return Objects.equals(to_develop, node.to_develop) &&
-                Objects.equals(getMarks(), node.getMarks());
+        for(Formula f : node.getMarks())
+        {
+            if(this.getMarks().indexOf(f)==-1)
+                return false;
+        }
+        for(Formula f : node.getTo_develop())
+        {
+            if(this.getTo_develop().indexOf(f)==-1)
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -124,4 +133,10 @@ public class Node {
     public Formula getChosenOne() {
         return chosenOne;
     }
+
+    public void addFollower (Node n)
+    {
+        this.following.add(n);
+    }
+
 }
