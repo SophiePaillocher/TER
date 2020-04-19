@@ -158,8 +158,8 @@ public class State {
         for(int i = 0; i < this.labels.size(); i++)
         {
             if(i == 0)
-                ret.append(" ").append(this.labels.get(0));
-            ret.append(", ").append(this.labels.get(i));
+            { ret.append(" ").append(this.labels.get(0));}
+            else{ret.append(", ").append(this.labels.get(i));}
         }
         ret.append("}");
         return ret.toString();
@@ -167,12 +167,20 @@ public class State {
 
     private String marksToString()
     {
+        int mark = 0;
         StringBuilder ret = new StringBuilder("{");
         for (String n : this.marks)
         {
             if(labels.indexOf(n) == -1)
             {
-                ret.append(", ").append(n);
+                if(mark == 0)
+                {
+                    ret.append(n);
+                    mark = 1;
+                }
+                else {
+                    ret.append(", ").append(n);
+                }
             }
         }
         ret.append("}");
@@ -182,17 +190,26 @@ public class State {
     private String linksToString()
     {
         StringBuilder ret = new StringBuilder("{");
+        ArrayList<String> thing = new ArrayList<>();
         for(State n : this.predecessors)
         {
-            ret.append("<").append(n.getName()).append(", ").append(this.getName()).append(">,");
+            thing.add("<"+n.getName()+", "+this.getName()+">");
         }
-        for(int i = 0; i < this.successors.size(); i++)
+        String temp;
+        for(State n : this.successors)
         {
-            if( i == 0 )
+            temp = "<"+this.getName()+", "+n.getName()+">";
+            if(thing.indexOf(temp) == -1 )
+                thing.add(temp);
+        }
+        for(int i = 0; i < thing.size(); i++)
+        {
+            if(i==0)
+                ret.append(thing.get(0));
+            else
             {
-                ret.append("<").append(this.getName()).append(", ").append(this.successors.get(i).getName()).append(">");
+                ret.append(", ").append(thing.get(i));
             }
-            ret.append(",<").append(this.getName()).append(", ").append(this.successors.get(i).getName()).append(">");
         }
         ret.append("}");
         return ret.toString();

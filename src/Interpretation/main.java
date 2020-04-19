@@ -1,5 +1,7 @@
 package Interpretation;
 
+import logic.*;
+
 import java.util.ArrayList;
 
 public class main {
@@ -50,6 +52,13 @@ public class main {
         states.add(s6);
         Interpretation model = new Interpretation(states,s);
 
+        QopF f8 = new QopF(new Every(), new Ring(), new QF1opF2(null, new Disjunction(), new Atom("p"), new Atom ("q")));
+
+        ArrayList<State> t = model.sat_(f8);
+        for(State n : t)
+        {
+            System.out.println(n.toString());
+        }
         /**
 
         //testons si chaque état a bien la liste de ses prédécesseurs

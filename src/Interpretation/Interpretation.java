@@ -60,7 +60,6 @@ public class Interpretation {
         return Objects.hash(getModel(), getRoot());
     }
 
-    //la je me preocupe pas si la formule est reecrite ou pas
     public ArrayList <State> sat_(Formula f){
         String testSub = f.toString(); //si jamais on a une formule compliquee on n'a pas a refaire le calcul.
         ArrayList<State> res_list = new ArrayList<>();
@@ -79,6 +78,11 @@ public class Interpretation {
                     model.get(i).mark(testSub);
                     res_list.add(model.get(i));
                 }
+            }
+            for(State n : res_list)
+            {
+                if(res_list.size() != 0 && !(model.indexOf(n)==-1))
+                    model.get(model.indexOf(n)).mark(f.toString());
             }
             return res_list;
         }
@@ -115,16 +119,17 @@ public class Interpretation {
             //E Rond F
             if(((QopF) f).getQ() instanceof Every && ((QopF) f).getOp() instanceof Ring)
             {
-                res_list.clear();
+                ArrayList<State> temp = new ArrayList<State>();
                 for(int i = 0; i < model.size(); i++)
                 {
                     if(thereIsOneInTheFuture(((QopF) f).getF(), model.get(i)))
                     {
                         model.get(i).mark(f.toString());
-                        res_list.add(model.get(i));
+                        temp.add(model.get(i));
                     }
                 }
-                return res_list;
+
+                return temp;
             }
             //E diamond F
             if(((QopF) f).getQ() instanceof  Every && ((QopF) f).getOp() instanceof Diamond){
@@ -176,15 +181,19 @@ public class Interpretation {
                         }
                     }
                 }
+                for(State n : res_list)
+                {
+                    if(!(model.indexOf(n)==-1))
+                        model.get(model.indexOf(n)).mark(f.toString());
+                }
                 return res_list;
-
             }
         }
         if(f instanceof QF1opF2)
         {
             ArrayList<State> satF1 = sat_(((QF1opF2) f).getF1());
             ArrayList<State> satF2 = sat_(((QF1opF2) f).getF2());
-            // f1 ^ f2
+            // f1 ^ f2+
             if(((QF1opF2) f).getOp() instanceof Conjunction && ((QF1opF2) f).getQ() == null)
             {
                 //parcour de tout les sommets qui sat(F1)
@@ -207,7 +216,6 @@ public class Interpretation {
                 for (State element : satF1) {
                     if(!satF2.contains(element))res_list.add(element);
                 }
-
             }
              //A(F1 U F2)
             if(((QF1opF2) f).getOp() instanceof Until && ((QF1opF2) f).getQ() instanceof ForAll){
@@ -262,6 +270,11 @@ public class Interpretation {
                     }
                 }
             }
+            for(State n : res_list)
+            {
+                if(res_list.size() != 0 && !(model.indexOf(n)==-1))
+                    model.get(model.indexOf(n)).mark(f.toString());
+            }
             return res_list;
         }
         //si on ne rentre pas dans un des if on est un atome et du coup on lance le suivant:
@@ -290,7 +303,8 @@ public class Interpretation {
                 position = toVisit.get(0);
                 toVisit.remove(0);
                 //on si jamais on l'a deja vu on va boucle tant qu'on n'a pas un sommet pas encore vu
-                if(visited.indexOf(position) == -1){
+                int i = visited.indexOf(position);
+                if(!( i == -1)){
                     while(toVisit.size() != 0  && visited.indexOf(position) == -1 ) {
                         position = toVisit.get(0);
                         toVisit.remove(0);
