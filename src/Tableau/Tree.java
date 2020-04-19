@@ -1,14 +1,13 @@
 package Tableau;
 import logic.*;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Tree {
-    ArrayList<Node> tree;
     Node root;
+    ArrayList<Node> tree;
+
 
     public Tree() {
         tree = new ArrayList<>();
@@ -17,13 +16,13 @@ public class Tree {
     public Tree(ArrayList<Node> tree, Node root) {
         this.tree = tree;
         this.root = root;
-        create();
+        create_ExtendedClosure();
     }
 
     public Tree(Node root) {
         this.root = root;
         this.tree = new ArrayList<>();
-        create();
+        create_ExtendedClosure();
     }
 
     public Tree(Formula f)
@@ -31,7 +30,7 @@ public class Tree {
         this.tree = new ArrayList<>();
         this.root = new Node();
         root.getTo_develop().add(f);
-        create();
+        create_ExtendedClosure();
     }
 
     public void setTree(ArrayList<Node> tree) {
@@ -73,42 +72,53 @@ public class Tree {
         return Objects.hash(getRoot());
     }
 
-    private void create()
+    private void create_ExtendedClosure()
     {
         ArrayList<Node> a_traiter = new ArrayList<>();
         ArrayList<Node> traite = new ArrayList<>();
+        ArrayList<Node> temp;
+
         a_traiter.add(this.root);
         tree.add(root);
-        Boolean test = false;
+        boolean test = false;
         while( ! test)
         {
-           ArrayList<Node> temp = traiter(a_traiter.get(0));
-           for(Node n : temp)
+            temp = traiter_ExtendedClosure(a_traiter.get(0));//temp detien la liste des somets qui genere le premier de la liste a traiter
+           int c;
+            for(c = 0; c < temp.size(); c++)
            {
-               if(!(traite.indexOf(n)==-1)){
-                   a_traiter.get(0).addFollower(traite.get(traite.indexOf(n)));
-               }
-               else
+               Node m = temp.get(c);
+               // on parcour temp et on va ferifier si il est deja dans l'arbre
+               for(Node t : tree)
                {
-                 a_traiter.get(0).addFollower(n);
-                 a_traiter.add(n);
-                 tree.add(n);
+                   if(t.getNumber() == 5)
+                       System.out.println(m.equals(t));
+                   if(m.equals(t))
+                   { //si on l'a deja croise on fait le lien au neud qui existe deja
+                       a_traiter.get(0).addFollower(t);
+                       temp.remove(c);
+                   }
                }
-
            }
-           traite.add(a_traiter.get(0));
+            for(Node n : temp)
+            {
+                a_traiter.get(0).addFollower(n);
+                a_traiter.add(n);
+                tree.add(n);
+            }
+            traite.add(a_traiter.get(0));
            a_traiter.remove(0);
-           if(a_traiter.size()==0)test=true;
+           if(a_traiter.size()==0)
+               test=true;
         }
     }
-
     /**
      * This is a function that will look at a node and do the appropriate action giving us it's list of successors
      * if the list is empty then the node has none
      * @param n
      * @return ArrayList</Node>
      */
-    private ArrayList<Node> traiter(Node n)
+    private ArrayList<Node> traiter_ExtendedClosure(Node n)
     {
         //choice of the formula to develop from the node
         int i = hasConjunctionFormula(n);
@@ -212,6 +222,10 @@ public class Tree {
                 ret.add(n1);
                 ret.add(n2);
             }
+            for(int j = 1; j <= ret.size(); j++)
+            {
+                ret.get(j-1).setNumber(n.getNumber()+j);
+            }
             return ret;
         }
         i = hasDisjuntionFormula(n);
@@ -252,7 +266,7 @@ public class Tree {
                 if(f1.getQ() instanceof Every && f1.getOp() instanceof Until)
                 {
                     a.getTo_develop().add(f1.getF2());
-                    b.getTo_develop().add(new QF1opF2(null, new Conjunction(), f1.getF1(), new QopF(new Every(), new Ring(), f1)));
+                    b.getTo_develop().add(new QF1opF2(null, new Disjunction(), new Negation(null, f1.getF1()),new Negation(null, new QopF(new Every(), new Ring(), f1))));
                     ret.add(a);
                     ret.add(b);
                 }
@@ -286,11 +300,18 @@ public class Tree {
                     ret.add(b);
                 }
             }
+            int indice = 1;
+            for(int j = 0; j < ret.size(); j++)
+            {
+                ret.get(j).setNumber(n.getNumber()+indice);
+                indice++;
+            }
             return ret;
         }
         i = hasSuccessorFormula(n);
         if(!(i==-1))
         {
+            n.setChosenOne(n.getTo_develop().get(i));
             ArrayList<Formula> tDvl1 = new ArrayList<>();
             ArrayList<Formula> mrk = new ArrayList<>();
             //if there are some formulas to carry over to the infants this is where we get them
@@ -307,11 +328,20 @@ public class Tree {
                 tDvl1.add(f.getF());
                 ret.add(new Node(mrk, tDvl1));
             }
+            for(int j = 1; j <= ret.size(); j++)
+            {
+                ret.get(j-1).setNumber(n.getNumber()+j);
+            }
             return ret;
+        }
+        if(n.getTo_develop().size() == 1)
+            n.setChosenOne(n.getTo_develop().get(0));
+        for(int j = 1; j <= ret.size(); j++)
+        {
+            ret.get(j-1).setNumber(n.getNumber()+j);
         }
         return ret;
     }
-
     private int hasConjunctionFormula(Node n)
     {
         ArrayList<Formula> contestants = new ArrayList<>();

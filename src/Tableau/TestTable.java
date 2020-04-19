@@ -5,7 +5,7 @@ import logic.*;
 import java.sql.Array;
 import java.util.ArrayList;
 
-public class tests {
+public class TestTable {
     public static void main(String[] args)
     {
         Tree testTree = new Tree();

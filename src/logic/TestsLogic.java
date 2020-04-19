@@ -1,6 +1,6 @@
 package logic;
 
-public class Main {
+public class TestsLogic {
 
     public static void main(String[] args) {
         Atom f = new Atom("f");

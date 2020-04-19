@@ -4,7 +4,7 @@ import logic.*;
 
 import java.util.ArrayList;
 
-public class main {
+public class TestInterpretation {
 
     public static void main(String[] args) {
 

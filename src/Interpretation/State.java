@@ -158,7 +158,7 @@ public class State {
         for(int i = 0; i < this.labels.size(); i++)
         {
             if(i == 0)
-            { ret.append(" ").append(this.labels.get(0));}
+            { ret.append(this.labels.get(0));}
             else{ret.append(", ").append(this.labels.get(i));}
         }
         ret.append("}");

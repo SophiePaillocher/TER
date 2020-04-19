@@ -58,17 +58,29 @@ public class Node {
 
     @Override
     public String toString() {
-        String me = Integer.toString(number) + " : {";
-        if (!(marks.size() == 0)) {
-            for (Formula i : marks) {
-                me = me + i.toString() + ", ";
-            }
-        }
-        for(Formula i : to_develop)
+        if(this.chosenOne != null){
+            return Integer.toString(number) + " : " + chosenOne.toString();}
+        else
         {
-            me = me + i.toString() + ", ";
+            StringBuilder ret = new StringBuilder("{");
+            for(int i = 0 ; i < this.marks.size(); i++)
+            {
+                if(i == 0){
+                    ret.append(marks.get(0).toString());}
+                else{
+                ret.append(", ").append(marks.get(i).toString());}
+            }
+            for(int i = 0 ; i < this.to_develop.size(); i++)
+            {
+                if(i== 0 && marks.size() ==0) {
+                    ret.append(to_develop.get(0).toString());
+                }
+                else {
+                    ret.append(", ").append(to_develop.get(i).toString());
+                }
+            }
+            return ret.append("}").toString();
         }
-        return me+ "}\n" ;
     }
 
     @Override
@@ -76,15 +88,29 @@ public class Node {
         if (this == o) return true;
         if (!(o instanceof Node)) return false;
         Node node = (Node) o;
-        for(Formula f : node.getMarks())
+        boolean b = this.marks.size() != node.getMarks().size();
+        if( b)
+            return false;
+        else
         {
-            if(this.getMarks().indexOf(f)==-1)
-                return false;
+            for (Formula f : node.getMarks()) {
+                //if the formula doesn't exist in this nodes marks the they are not the same
+                if (!marksContainsFormula(f.toString()))
+                    return false;
+            }
         }
-        for(Formula f : node.getTo_develop())
-        {
-            if(this.getTo_develop().indexOf(f)==-1)
-                return false;
+        boolean a = this.to_develop.size() != node.getTo_develop().size();
+
+        if(a){
+            return false;
+        }
+        else{
+            for(Formula f : node.getTo_develop())
+            {
+                //same as above if a formula in the objects to develop doesn't exist in my to develop the we are not the same
+                if(!toDevelopContainsFormula(f.toString()))
+                    return false;
+            }
         }
         return true;
     }
@@ -139,4 +165,22 @@ public class Node {
         this.following.add(n);
     }
 
+    private boolean marksContainsFormula (String f)
+    {
+        for(Formula n : this.getMarks())
+        {
+            if(f.equals(n.toString()))
+                return true;
+        }
+        return false;
+    }
+    private boolean toDevelopContainsFormula (String f)
+    {
+        for(Formula n : this.getTo_develop())
+        {
+            if(f.equals(n.toString()))
+                return true;
+        }
+        return false;
+    }
 }
