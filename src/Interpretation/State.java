@@ -141,17 +141,61 @@ public class State {
 
     @Override
     public String toString() {
-        return super.toString();
+        return this.getName() + " : " + labelsToString() + ", " + marksToString() + ", " + linksToString();
     }
     //I'm using the formula in its string form because the formula comparing method uses the parent o the formula to test
     //ans in this case I'm only interested in it's written form
     public boolean isMarkedBy(String formula){
-        for (int i = 0; i < this.marks.size() ; i++)
-        {
-            if (this.marks.get(i).toString().equals(formula))return true;
+        for (String mark : this.marks) {
+            if (mark.equals(formula)) return true;
         }
         return false;
     }
 
+    private String labelsToString()
+    {
+        StringBuilder ret = new StringBuilder("{");
+        for(int i = 0; i < this.labels.size(); i++)
+        {
+            if(i == 0)
+                ret.append(" ").append(this.labels.get(0));
+            ret.append(", ").append(this.labels.get(i));
+        }
+        ret.append("}");
+        return ret.toString();
+    }
+
+    private String marksToString()
+    {
+        StringBuilder ret = new StringBuilder("{");
+        for (String n : this.marks)
+        {
+            if(labels.indexOf(n) == -1)
+            {
+                ret.append(", ").append(n);
+            }
+        }
+        ret.append("}");
+        return ret.toString();
+    }
+
+    private String linksToString()
+    {
+        StringBuilder ret = new StringBuilder("{");
+        for(State n : this.predecessors)
+        {
+            ret.append("<").append(n.getName()).append(", ").append(this.getName()).append(">,");
+        }
+        for(int i = 0; i < this.successors.size(); i++)
+        {
+            if( i == 0 )
+            {
+                ret.append("<").append(this.getName()).append(", ").append(this.successors.get(i).getName()).append(">");
+            }
+            ret.append(",<").append(this.getName()).append(", ").append(this.successors.get(i).getName()).append(">");
+        }
+        ret.append("}");
+        return ret.toString();
+    }
 
 }

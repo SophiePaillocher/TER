@@ -277,22 +277,21 @@ public class Interpretation {
     //je vais faire une sorte de a* avec un map des sommets deja visit'es et
     private boolean thereIsOneInTheFuture(Formula f, State start)
     {
-        ArrayList<State> toVisit = new ArrayList<>();
-        ArrayList<String> visited = new ArrayList<>();
+        ArrayList<State> visited = new ArrayList<>();
         State position = start;
         if(start.getSuccessors().size() != 0)
         {
             //come ça on n'a pas a lanse 50 fois la reecriture en tring qui peut etre longue
             String form = f.toString();
-            toVisit.addAll(start.getSuccessors());
+            ArrayList<State> toVisit = new ArrayList<>(start.getSuccessors());
             while(toVisit.size() != 0)
             {
                 //on recupere le premier de la liste
                 position = toVisit.get(0);
                 toVisit.remove(0);
                 //on si jamais on l'a deja vu on va boucle tant qu'on n'a pas un sommet pas encore vu
-                if(visited.indexOf(position.toString()) == -1){
-                    while(toVisit.size() != 0  && visited.indexOf(position.toString()) == -1 ) {
+                if(visited.indexOf(position) == -1){
+                    while(toVisit.size() != 0  && visited.indexOf(position) == -1 ) {
                         position = toVisit.get(0);
                         toVisit.remove(0);
                     }
@@ -301,7 +300,7 @@ public class Interpretation {
                     return true;
                 if(position.getSuccessors().size()!= 0)
                     toVisit.addAll(position.getSuccessors());
-                visited.add(position.toString());
+                visited.add(position);
             }
         }
         return false;
