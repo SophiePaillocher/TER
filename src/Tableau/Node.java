@@ -18,6 +18,7 @@ public class Node {
         this.to_develop = new ArrayList<>();
         this.marks = new ArrayList<>();
         this.following = new ArrayList<>();
+        this.chosenOne = null;
     }
     public Node(ArrayList<Formula> marks, ArrayList<Formula> to_develop)
     {
@@ -26,6 +27,7 @@ public class Node {
         this.following = new ArrayList<>();
         this.marks.addAll(marks);
         this.to_develop.addAll(to_develop);
+        this.chosenOne = null;
     }
     public Node(ArrayList<Formula> marks, ArrayList<Formula> to_develop, Node previous)
     {
@@ -183,4 +185,5 @@ public class Node {
         }
         return false;
     }
+
 }

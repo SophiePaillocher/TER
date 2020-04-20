@@ -303,18 +303,39 @@ public class Interpretation {
                 position = toVisit.get(0);
                 toVisit.remove(0);
                 //on si jamais on l'a deja vu on va boucle tant qu'on n'a pas un sommet pas encore vu
-                int i = visited.indexOf(position);
-                if(!( i == -1)){
+                int i = -1;
+                if(visited.size()!=0)
+                {
+                    for(State s : visited)
+                    {
+                        if (s.getName().equals(position.getName())) {
+                            i = 0;
+                            break;
+                        }
+                    }
+                }
+                if( i != -1){
                     while(toVisit.size() != 0  && visited.indexOf(position) == -1 ) {
                         position = toVisit.get(0);
                         toVisit.remove(0);
                     }
+                    for(State s : visited)
+                    {
+                        if (s.getName().equals(position.getName())) {
+                            position = null;
+                            break;
+                        }
+                    }
+
                 }
-                if(position.isMarkedBy(form))
-                    return true;
-                if(position.getSuccessors().size()!= 0)
-                    toVisit.addAll(position.getSuccessors());
-                visited.add(position);
+                if(position != null) {
+                    if (position.isMarkedBy(form))
+                        return true;
+                    if (position.getSuccessors().size() != 0) {
+                        toVisit.addAll(position.getSuccessors());
+                    }
+                    visited.add(position);
+                }
             }
         }
         return false;
