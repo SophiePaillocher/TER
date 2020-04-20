@@ -1,4 +1,4 @@
-package logic;
+package Formula;
 
 import java.util.Objects;
 

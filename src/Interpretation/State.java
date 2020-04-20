@@ -1,6 +1,6 @@
 package Interpretation;
 
-import logic.Formula;
+import Formula.Formula;
 
 import java.util.ArrayList;
 

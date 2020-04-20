@@ -1,4 +1,4 @@
-package logic;
+package Formula;
 
 import Interpretation.Interpretation;
 import Interpretation.State;

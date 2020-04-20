@@ -1,6 +1,4 @@
-package logic;
-
-import java.util.ArrayList;
+package Formula;
 
 public class Conjunction extends Operator {
 

@@ -1,6 +1,6 @@
 package Tableau;
 import Interpretation.State;
-import logic.*;
+import Formula.*;
 
 import java.util.ArrayList;
 import java.util.Objects;

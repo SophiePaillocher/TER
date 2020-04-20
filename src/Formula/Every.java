@@ -1,6 +1,4 @@
-package logic;
-
-import java.util.Objects;
+package Formula;
 
 public class Every extends Quantificator{
 

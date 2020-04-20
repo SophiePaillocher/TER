@@ -1,7 +1,6 @@
 package Tableau;
-import logic.*;
+import Formula.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 

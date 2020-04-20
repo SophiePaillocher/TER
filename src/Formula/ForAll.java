@@ -1,6 +1,4 @@
-package logic;
-
-import java.util.Objects;
+package Formula;
 
 public class ForAll extends Quantificator {
     public ForAll() {

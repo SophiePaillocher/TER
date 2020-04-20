@@ -1,4 +1,4 @@
-package logic;
+package Formula;
 
 public class Diamond extends Operator {
 
