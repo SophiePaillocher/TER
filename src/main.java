@@ -1,12 +1,10 @@
 import Interpretation.Interpretation;
 import Interpretation.State;
-import Tableau.Node;
-import Tableau.Tree;
 import logic.*;
 
 import java.util.ArrayList;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
         // initialisation des états étiquettés
         State s = new State("s");
@@ -74,7 +72,7 @@ public class Main {
 
         //Verifions Sat(f3)
         ArrayList<State> satNonp = model.sat_(f3);
-        System.out.print("sat("+f3.toString()+")= ");
+        System.out.print("sat(f3)= ");
         for (State state : satNonp)
             System.out.print(state.getName() +" ; ");
         System.out.println();
@@ -88,53 +86,47 @@ public class Main {
 
         //Verifions Sat(f9)
         ArrayList<State> satf9 = model.sat_(f9);
-        System.out.print("sat("+f9.toString()+")= ");
+        System.out.print("sat(f9)= ");
         for (State state : satf9)
             System.out.print(state.getName() +" ; ");
         System.out.println();
 
         //Vérifions Sat(f8)
         ArrayList<State> satf8 = model.sat_(f8);
-        System.out.print("sat("+f8.toString()+")= ");
+        System.out.print("sat(f8)= ");
         for (State state : satf8)
             System.out.print(state.getName() +" ; ");
         System.out.println();
-
+/**
         //Vérifions Sat(f6)
         ArrayList<State> satf6 = model.sat_(f6);
-        System.out.print("sat("+f6.toString()+")= ");
+        System.out.print("sat(f6)= ");
         for (State state : satf6)
             System.out.print(state.getName() +" ; ");
         System.out.println();
 
         //Vérifions Sat(f4)
         ArrayList<State> satf4 = model.sat_(f4);
-        System.out.print("sat("+f4.toString()+")= ");
+        System.out.print("sat(f4)= ");
         for (State state : satf4)
             System.out.print(state.getName() +" ; ");
         System.out.println();
 
         //Verifions SAt(f2)
         ArrayList<State> satf2 = model.sat_(f2);
-        System.out.print("sat("+f2.toString()+")= ");
+        System.out.print("sat(f2)= ");
         for (State state : satf8)
             System.out.print(state.getName() +" ; ");
         System.out.println();
 
         //Vérifions Sat(psy)
         ArrayList<State> satpsy = model.sat_(psy);
-        System.out.print("sat("+psy.toString() +")= ");
+        System.out.print("sat(psy)= ");
         for (State state : satpsy)
             System.out.print(state.getName() +" ; ");
         System.out.println();
 
-        Tree test1 = new Tree(f6);
-        test1.create_OS(s);
-        System.out.println("\n");
+**/
 
-        for(Node gunter : test1.getTree())
-        {
-            System.out.println(gunter.toString());
-        }
     }
 }

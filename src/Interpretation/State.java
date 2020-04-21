@@ -107,8 +107,8 @@ public class State {
     }
 
     public void mark(String f) {
-        if (!marks.contains(f))
-            marks.add(f);
+        if (marks.indexOf(f) != -1) marks = new ArrayList<>();
+        marks.add(f);
     }
 
     public void clearMarks() {
