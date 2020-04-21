@@ -1,7 +1,8 @@
 package Tableau;
 
-import Formula.*;
+import logic.*;
 
+import java.sql.Array;
 import java.util.ArrayList;
 
 public class TestTable {

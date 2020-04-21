@@ -1,6 +1,6 @@
 package Interpretation;
 
-import Formula.*;
+import logic.*;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,7 @@ public class TestInterpretation {
         states.add(s6);
         Interpretation model = new Interpretation(states,s);
 
-        QopF f8 = new QopF(new Every(), new Ring(), new QF1opF2(null, new Disjunction(), new Atom("p"), new Atom ("q")));
+        QopF f8 = new QopF(new Every(), new Ring(), new QF1opF2(null, new Conjunction(), new Atom("p"), new Atom ("q")));
 
         ArrayList<State> t = model.sat_(f8);
         for(State n : t)

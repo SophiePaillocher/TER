@@ -1,6 +1,6 @@
 package Interpretation;
 
-import Formula.Formula;
+import logic.Formula;
 
 import java.util.ArrayList;
 
@@ -107,8 +107,8 @@ public class State {
     }
 
     public void mark(String f) {
-        if (marks.indexOf(f) != -1) marks = new ArrayList<>();
-        marks.add(f);
+        if (!marks.contains(f))
+            marks.add(f);
     }
 
     public void clearMarks() {
