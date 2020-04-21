@@ -1,9 +1,12 @@
 package Tableau;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Interpretation.State;
 import Formula.*;
 =======
+=======
+>>>>>>> parent of 815d542... OS qui marche (besoin de tester un peut plus peut etre)
 =======
 >>>>>>> parent of 815d542... OS qui marche (besoin de tester un peut plus peut etre)
 import logic.*;
